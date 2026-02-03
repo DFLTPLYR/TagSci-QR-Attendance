@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "http://localhost:5173",
+      domain: process.env.CONVEX_SITE_URL,
       applicationID: "convex",
     },
   ],

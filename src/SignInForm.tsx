@@ -15,8 +15,7 @@ export function SignInForm() {
         onSubmit={(e) => {
           e.preventDefault();
           setSubmitting(true);
-          const formData = new FormData(e.target as HTMLFormElement);
-          formData.set("flow", flow);
+          const formData = new FormData(e.currentTarget as HTMLFormElement);
           void signIn("password", formData).catch((error) => {
             let toastTitle = "";
             if (error.message.includes("Invalid password")) {
@@ -46,6 +45,7 @@ export function SignInForm() {
           placeholder="Password"
           required
         />
+        <input name="flow" type="hidden" value={flow} />
         <button className="auth-button" type="submit" disabled={submitting}>
           {flow === "signIn" ? "Sign in" : "Sign up"}
         </button>
