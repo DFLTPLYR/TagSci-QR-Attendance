@@ -35,7 +35,7 @@ function App() {
   }, [isAuthenticated]);
 
   // Route wrappers
-  const ProtectedRoute = ({ children, redirectTo = "/dashboard" }) => (
+  const ProtectedRoute = ({ children, redirectTo = "/" }) => (
     <>
       <Authenticated>{children}</Authenticated>
       <Unauthenticated><Navigate to={redirectTo} replace /></Unauthenticated>
@@ -57,7 +57,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/concerns" element={<ConcernsPage />} />
           <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
 
 
           {/* Protected routes */}
