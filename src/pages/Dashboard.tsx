@@ -16,9 +16,9 @@ export default function Dashboard() {
       const localAttendance = await getTodayAttendanceOffline();
       setLocalTodayCount(localAttendance.length);
     };
-    
+
     loadLocalAttendance();
-    
+
     // Refresh local count every 5 seconds
     const interval = setInterval(loadLocalAttendance, 5000);
     return () => clearInterval(interval);
@@ -114,7 +114,7 @@ export default function Dashboard() {
         {/* Section-based Navigation */}
         <div className="w-full max-w-7xl">
           <h2 className="text-2xl font-black mb-6 text-center">SELECT SECTION</h2>
-          
+
           {/* Grade 11 Sections */}
           <div className="mb-8">
             <h3 className="text-xl font-black mb-4 text-center bg-blue-100 py-2">GRADE 11</h3>
@@ -123,11 +123,10 @@ export default function Dashboard() {
                 <Link
                   key={section.classId}
                   to={`/section/${encodeURIComponent(section.classId)}`}
-                  className={`group border-4 border-black p-4 transition-colors ${
-                    isOnline 
-                      ? 'hover:bg-black hover:text-white' 
-                      : 'opacity-50 cursor-not-allowed bg-gray-100'
-                  }`}
+                  className={`group border-4 border-black p-4 transition-colors ${isOnline
+                    ? 'hover:bg-black hover:text-white'
+                    : 'opacity-50 cursor-not-allowed bg-gray-100'
+                    }`}
                   onClick={(e) => {
                     if (!isOnline) {
                       e.preventDefault();
@@ -157,11 +156,10 @@ export default function Dashboard() {
                 <Link
                   key={section.classId}
                   to={`/section/${encodeURIComponent(section.classId)}`}
-                  className={`group border-4 border-black p-4 transition-colors ${
-                    isOnline 
-                      ? 'hover:bg-black hover:text-white' 
-                      : 'opacity-50 cursor-not-allowed bg-gray-100'
-                  }`}
+                  className={`group border-4 border-black p-4 transition-colors ${isOnline
+                    ? 'hover:bg-black hover:text-white'
+                    : 'opacity-50 cursor-not-allowed bg-gray-100'
+                    }`}
                   onClick={(e) => {
                     if (!isOnline) {
                       e.preventDefault();
@@ -185,11 +183,11 @@ export default function Dashboard() {
         </div>
 
         {/* Management Tools */}
-        <div className="w-full max-w-6xl mt-12">
+        <div className="w-full max-w-6xl my-12">
           <h2 className="text-2xl font-black mb-6 text-center">MANAGEMENT TOOLS</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Daily Pool Scan */}
-            <Link 
+            <Link
               to="/scan"
               className="group border-4 border-black p-6 hover:bg-black hover:text-white transition-colors"
             >
@@ -206,13 +204,12 @@ export default function Dashboard() {
             </Link>
 
             {/* Generate QR IDs */}
-            <Link 
+            <Link
               to="/generate"
-              className={`group border-4 border-black p-6 transition-colors ${
-                isOnline 
-                  ? 'hover:bg-black hover:text-white' 
-                  : 'opacity-50 cursor-not-allowed bg-gray-100'
-              }`}
+              className={`group border-4 border-black p-6 transition-colors ${isOnline
+                ? 'hover:bg-black hover:text-white'
+                : 'opacity-50 cursor-not-allowed bg-gray-100'
+                }`}
               onClick={(e) => {
                 if (!isOnline) {
                   e.preventDefault();
@@ -232,7 +229,7 @@ export default function Dashboard() {
             </Link>
 
             {/* View Logs */}
-            <Link 
+            <Link
               to="/logs"
               className="group border-4 border-black p-6 hover:bg-black hover:text-white transition-colors"
             >
@@ -249,13 +246,12 @@ export default function Dashboard() {
             </Link>
 
             {/* Student Progress */}
-            <Link 
+            <Link
               to="/progress"
-              className={`group border-4 border-black p-6 transition-colors ${
-                isOnline 
-                  ? 'hover:bg-black hover:text-white' 
-                  : 'opacity-50 cursor-not-allowed bg-gray-100'
-              }`}
+              className={`group border-4 border-black p-6 transition-colors ${isOnline
+                ? 'hover:bg-black hover:text-white'
+                : 'opacity-50 cursor-not-allowed bg-gray-100'
+                }`}
               onClick={(e) => {
                 if (!isOnline) {
                   e.preventDefault();

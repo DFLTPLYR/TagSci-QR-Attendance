@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TAGSCI QR-CATS</string>
+    <string name="title_activity_main">TAGSCI QR-CATS</string>
+    <string name="package_name">com.tagsci.qrcats</string>
+    <string name="custom_url_scheme">com.tagsci.qrcats</string>
+</resources>
