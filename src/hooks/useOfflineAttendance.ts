@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { localDB, LocalAttendanceEntry } from '../services/database';
-import { syncService } from '../services/syncService';
-import { connectionMonitor } from '../services/connectionMonitor';
-import { toast } from 'sonner';
+import { useState, useEffect, useCallback } from "react";
+import { localDB, LocalAttendanceEntry } from "../services/database";
+import { syncService } from "../services/syncService";
+import { connectionMonitor } from "../services/connectionMonitor";
+import { toast } from "sonner";
 
 export function useOfflineAttendance() {
   const [isOnline, setIsOnline] = useState(connectionMonitor.getStatus());
@@ -16,14 +16,14 @@ export function useOfflineAttendance() {
       try {
         // Initialize local database
         await localDB.init();
-        
+
         if (mounted) {
           setIsInitialized(true);
         }
       } catch (error) {
-        console.error('Failed to initialize offline system:', error);
+        console.error("Failed to initialize offline system:", error);
         if (mounted) {
-          toast.error('Failed to initialize offline storage');
+          toast.error("Failed to initialize offline storage");
         }
       }
     };
@@ -33,13 +33,15 @@ export function useOfflineAttendance() {
     // Monitor connection status
     const handleConnectionChange = (online: boolean) => {
       if (!mounted) return;
-      
+
       setIsOnline(online);
       if (online) {
-        toast.success('Connection restored - syncing data...');
+        toast.success("Connection restored - syncing data...");
         syncService.forceSync().catch(console.error);
       } else {
-        toast.info('Working offline - data will sync when connection is restored');
+        toast.info(
+          "Working offline - data will sync when connection is restored",
+        );
       }
     };
 
@@ -48,14 +50,14 @@ export function useOfflineAttendance() {
     // Check pending sync count periodically
     const checkPendingSync = async () => {
       if (!mounted) return;
-      
+
       try {
         const unsynced = await localDB.getUnsyncedEntries();
         if (mounted) {
           setPendingSyncCount(unsynced.length);
         }
       } catch (error) {
-        console.error('Failed to check pending sync:', error);
+        console.error("Failed to check pending sync:", error);
       }
     };
 
@@ -79,16 +81,19 @@ export function useOfflineAttendance() {
     scannedBy: string;
   }): Promise<void> => {
     if (!isInitialized) {
-      throw new Error('Offline system not initialized');
+      throw new Error("Offline system not initialized");
     }
 
     const now = new Date();
-    const today = now.toISOString().split('T')[0];
+    const today = now.toISOString().split("T")[0];
 
     // Check for duplicate in local database first
-    const isDuplicate = await localDB.checkDuplicateAttendance(attendanceData.studentId, today);
+    const isDuplicate = await localDB.checkDuplicateAttendance(
+      attendanceData.studentId,
+      today,
+    );
     if (isDuplicate) {
-      throw new Error('Attendance already recorded for this student today');
+      throw new Error("Attendance already recorded for this student today");
     }
 
     // Save to local database
@@ -105,12 +110,14 @@ export function useOfflineAttendance() {
       try {
         await syncService.forceSync();
       } catch (error) {
-        console.log('Immediate sync failed, will retry later');
+        console.log("Immediate sync failed, will retry later");
       }
     }
   };
 
-  const getTodayAttendanceOffline = async (): Promise<LocalAttendanceEntry[]> => {
+  const getTodayAttendanceOffline = useCallback(async (): Promise<
+    LocalAttendanceEntry[]
+  > => {
     if (!isInitialized) {
       return [];
     }
@@ -118,10 +125,10 @@ export function useOfflineAttendance() {
     try {
       return await localDB.getTodayAttendanceLocally();
     } catch (error) {
-      console.error('Failed to get today attendance offline:', error);
+      console.error("Failed to get today attendance offline:", error);
       return [];
     }
-  };
+  }, [isInitialized]);
 
   const getAllLocalAttendance = async (): Promise<LocalAttendanceEntry[]> => {
     if (!isInitialized) {
@@ -131,7 +138,7 @@ export function useOfflineAttendance() {
     try {
       return await localDB.getAllLocalAttendance();
     } catch (error) {
-      console.error('Failed to get all local attendance:', error);
+      console.error("Failed to get all local attendance:", error);
       return [];
     }
   };
@@ -140,7 +147,7 @@ export function useOfflineAttendance() {
     if (isOnline) {
       await syncService.forceSync();
     } else {
-      toast.error('Cannot sync while offline');
+      toast.error("Cannot sync while offline");
     }
   };
 
@@ -148,10 +155,10 @@ export function useOfflineAttendance() {
     try {
       await localDB.clearAllData();
       setPendingSyncCount(0);
-      toast.success('Local data cleared');
+      toast.success("Local data cleared");
     } catch (error) {
-      console.error('Failed to clear local data:', error);
-      toast.error('Failed to clear local data');
+      console.error("Failed to clear local data:", error);
+      toast.error("Failed to clear local data");
     }
   };
 

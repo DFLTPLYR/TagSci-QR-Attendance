@@ -1,9 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Authenticated, ConvexReactClient, Unauthenticated, useConvexAuth, useQuery } from 'convex/react';
-import { api } from '../convex/_generated/api';
+import { Authenticated, Unauthenticated } from 'convex/react';
 import { Toaster } from 'react-hot-toast';
 import { Toaster as SonnerToaster } from 'sonner';
-
 // Pages
 import LandingPage from './pages/LandingPage';
 import AboutPage from './pages/AboutPage';
@@ -18,30 +16,18 @@ import ScanSession from './pages/ScanSession';
 import GenerateQR from './pages/GenerateQR';
 import ViewLogs from './pages/ViewLogs';
 import StudentProgress from './pages/StudentProgress';
-import { useEffect } from 'react';
-import { syncService } from './services/syncService';
+import { ReactNode } from 'react';
 
-const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 function App() {
-  const { isAuthenticated } = useConvexAuth();
-
-  useEffect(() => {
-    // Initialize sync service with Convex client
-    syncService.setConvexClient(convex);
-    if (isAuthenticated) {
-      // Start periodic sync when authenticated
-      syncService.startPeriodicSync().catch((e) => { console.log("error found: ", e) });
-    }
-  }, [isAuthenticated]);
 
   // Route wrappers
-  const ProtectedRoute = ({ children, redirectTo = "/" }) => (
+  const ProtectedRoute = ({ children, redirectTo = "/" }: { children: ReactNode; redirectTo?: string }) => (
     <>
       <Authenticated>{children}</Authenticated>
       <Unauthenticated><Navigate to={redirectTo} replace /></Unauthenticated>
     </>
   );
-  const PublicRoute = ({ children, redirectTo = "/dashboard" }) => (
+  const PublicRoute = ({ children, redirectTo = "/dashboard" }: { children: ReactNode; redirectTo?: string }) => (
     <>
       <Unauthenticated>{children}</Unauthenticated>
       <Authenticated><Navigate to={redirectTo} replace /></Authenticated>

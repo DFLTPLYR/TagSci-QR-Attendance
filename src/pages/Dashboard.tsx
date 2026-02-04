@@ -79,7 +79,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm">Welcome, {user?.email}</span>
+          <span className="text-sm">Welcome, {user?.email ? user.email : "Anonymous"}</span>
           {pendingSyncCount > 0 && (
             <span className="text-xs bg-yellow-200 px-2 py-1 rounded font-bold">
               {pendingSyncCount} pending sync
@@ -123,7 +123,7 @@ export default function Dashboard() {
                 <Link
                   key={section.classId}
                   to={`/section/${encodeURIComponent(section.classId)}`}
-                  className={`group border-4 border-black p-4 transition-colors ${isOnline
+                  className={`group border-4 duration-300 border-black p-4 transition-colors ${isOnline
                     ? 'hover:bg-black hover:text-white'
                     : 'opacity-50 cursor-not-allowed bg-gray-100'
                     }`}
@@ -156,7 +156,7 @@ export default function Dashboard() {
                 <Link
                   key={section.classId}
                   to={`/section/${encodeURIComponent(section.classId)}`}
-                  className={`group border-4 border-black p-4 transition-colors ${isOnline
+                  className={`group border-4 duration-300 border-black p-4 transition-colors ${isOnline
                     ? 'hover:bg-black hover:text-white'
                     : 'opacity-50 cursor-not-allowed bg-gray-100'
                     }`}
@@ -189,7 +189,7 @@ export default function Dashboard() {
             {/* Daily Pool Scan */}
             <Link
               to="/scan"
-              className="group border-4 border-black p-6 hover:bg-black hover:text-white transition-colors"
+              className="group border-4 border-black p-6 duration-300 hover:bg-black hover:text-white transition-colors"
             >
               <div className="text-center">
                 <div className="text-5xl mb-3">📱</div>
@@ -206,7 +206,7 @@ export default function Dashboard() {
             {/* Generate QR IDs */}
             <Link
               to="/generate"
-              className={`group border-4 border-black p-6 transition-colors ${isOnline
+              className={`group border-4 border-black p-6 duration-300 transition-colors ${isOnline
                 ? 'hover:bg-black hover:text-white'
                 : 'opacity-50 cursor-not-allowed bg-gray-100'
                 }`}
@@ -231,7 +231,7 @@ export default function Dashboard() {
             {/* View Logs */}
             <Link
               to="/logs"
-              className="group border-4 border-black p-6 hover:bg-black hover:text-white transition-colors"
+              className="group border-4 border-black p-6 duration-300 hover:bg-black hover:text-white transition-colors"
             >
               <div className="text-center">
                 <div className="text-5xl mb-3">📊</div>
@@ -248,7 +248,7 @@ export default function Dashboard() {
             {/* Student Progress */}
             <Link
               to="/progress"
-              className={`group border-4 border-black p-6 transition-colors ${isOnline
+              className={`group border-4 border-black p-6 duration-300 transition-colors ${isOnline
                 ? 'hover:bg-black hover:text-white'
                 : 'opacity-50 cursor-not-allowed bg-gray-100'
                 }`}
